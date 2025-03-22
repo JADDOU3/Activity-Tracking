@@ -21,7 +21,7 @@ public class ActivityService {
 
         if(!currentApp.equals(lastApp)){
             if(!lastApp.isBlank()){
-                //implement log to store activity
+                calendarService.logActivityToCalendar(lastApp, startTime, LocalDateTime.now());
             }
             lastApp = currentApp;
             startTime = LocalDateTime.now();
