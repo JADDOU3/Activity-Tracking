@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-@RequiredArgsConstructor
 public class ActivityService {
 
     private String lastApp = "";
     private LocalDateTime startTime = LocalDateTime.now();
 
-    private CalendarService calendarService;
+    private final CalendarService calendarService;
 
+
+    public ActivityService(CalendarService calendarService) {
+        this.calendarService = calendarService;
+    }
     public void checkActivity(){
         String currentApp = WindowTracker.getActiveWindowTitle();
 
