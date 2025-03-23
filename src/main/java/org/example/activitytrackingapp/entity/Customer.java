@@ -8,9 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 @Table(name = "Customer")
 public class Customer {
@@ -22,5 +20,15 @@ public class Customer {
     private String name;
     private String email;
     private String password;
+
+    public Customer() {}
+
+    public Customer(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+
 
 }

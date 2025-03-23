@@ -1,33 +1,25 @@
 package org.example.activitytrackingapp.services;
 
 
-import lombok.RequiredArgsConstructor;
-import org.example.activitytrackingapp.utils.WindowTracker;
+import jakarta.transaction.Transactional;
+import org.example.activitytrackingapp.entity.Activity;
+import org.example.activitytrackingapp.repository.ActivityRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class ActivityService {
 
-    private String lastApp = "";
-    private LocalDateTime startTime = LocalDateTime.now();
+    private final ActivityRepo activityRepo;
 
-    private final CalendarService calendarService;
-
-
-    public ActivityService(CalendarService calendarService) {
-        this.calendarService = calendarService;
+    @Autowired
+    public ActivityService(ActivityRepo activityRepo) {
+        this.activityRepo = activityRepo;
     }
-    public void checkActivity(){
-        String currentApp = WindowTracker.getActiveWindowTitle();
 
-        if(!currentApp.equals(lastApp)){
-            if(!lastApp.isBlank()){
-                calendarService.logActivityToCalendar(lastApp, startTime, LocalDateTime.now());
-            }
-            lastApp = currentApp;
-            startTime = LocalDateTime.now();
-        }
+
+    public Activity save(Activity activity) {
+        return activityRepo.save(activity);
     }
 }

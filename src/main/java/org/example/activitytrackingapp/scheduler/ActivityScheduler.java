@@ -1,16 +1,16 @@
 package org.example.activitytrackingapp.scheduler;
 
 
-import org.example.activitytrackingapp.services.ActivityService;
+import org.example.activitytrackingapp.services.TrackService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ActivityScheduler {
 
-    private final ActivityService activityService;
+    private final TrackService activityService;
 
-    public ActivityScheduler (ActivityService activityService) {
+    public ActivityScheduler (TrackService activityService) {
         this.activityService = activityService;
     }
 
