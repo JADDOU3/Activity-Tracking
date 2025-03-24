@@ -1,4 +1,4 @@
-package org.example.activitytrackingapp.scheduler;
+package org.example.activitytrackingapp.component;
 
 
 import org.example.activitytrackingapp.services.TrackService;
@@ -9,13 +9,29 @@ import org.springframework.stereotype.Component;
 public class ActivityScheduler {
 
     private final TrackService activityService;
+    private boolean track = true;
 
     public ActivityScheduler (TrackService activityService) {
         this.activityService = activityService;
     }
 
-    @Scheduled(fixedRate = 60000) // every minute
+    @Scheduled(fixedRate = 30000)
     public void track() {
-        activityService.checkActivity();
+        if (track) {
+            activityService.checkActivity();
+        }
+    }
+
+    public void startTracking() {
+        track = true;
+        track();
+    }
+
+    public void stopTracking() {
+        track = false;
+    }
+
+    public boolean isTracking() {
+        return track;
     }
 }

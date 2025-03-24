@@ -1,8 +1,12 @@
 package org.example.activitytrackingapp.services;
 
 
+import org.example.activitytrackingapp.component.SessionManager;
 import org.example.activitytrackingapp.entity.Activity;
+import org.example.activitytrackingapp.entity.Customer;
+import org.example.activitytrackingapp.repository.ActivityRepo;
 import org.example.activitytrackingapp.utils.WindowTracker;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -14,11 +18,11 @@ public class TrackService {
     private String lastApp = "";
     private LocalDateTime startTime = LocalDateTime.now();
 
-    private final CalendarService calendarService;
+    private ActivityRepo activityRepo;
 
-
-    public TrackService(CalendarService calendarService) {
-        this.calendarService = calendarService;
+    @Autowired
+    public TrackService(ActivityRepo activityRepo) {
+        this.activityRepo = activityRepo;
     }
 
     public void checkActivity(){
@@ -26,8 +30,13 @@ public class TrackService {
 
         if(!currentApp.equals(lastApp)){
             if(!lastApp.isBlank()){
-                Duration timeSpent = Duration.between(startTime,LocalDateTime.now());
-                Activity activity = new Activity(lastApp , timeSpent);
+                Customer customer = SessionManager.getCurrentCustomer();
+                if(customer != null) {
+                    Duration timeSpent = Duration.between(startTime, LocalDateTime.now());
+                    Activity activity = new Activity(lastApp, timeSpent, customer);
+                    activityRepo.save(activity);
+                }
+                System.out.println("not logged in");
             }
             lastApp = currentApp;
             startTime = LocalDateTime.now();

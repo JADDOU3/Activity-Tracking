@@ -27,8 +27,9 @@ public class Activity {
 
     public Activity(){}
 
-    public Activity(String activityName, Duration timeSpent){
+    public Activity(String activityName, Duration timeSpent , Customer customer){
         this.activityName = activityName;
         this.timeSpent = timeSpent;
+        this.customer = customer;
     }
 }
